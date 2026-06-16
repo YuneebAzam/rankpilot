@@ -1,0 +1,121 @@
+// RankPilot — Phase 1 schema
+// Focus: multi-tenant accounts + workspace RBAC.
+// Later phases add Site, Keyword, Content, Subscription, etc. (see SPEC.md §5).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  name         String?
+  passwordHash String?
+  image        String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  memberships  Membership[]
+  invitesSent  Invitation[] @relation("InvitedBy")
+
+  // Auth.js relations (database-adapter compatible; we use JWT sessions but
+  // keep the tables so OAuth providers can be added in a later phase).
+  accounts     Account[]
+  sessions     Session[]
+}
+
+model Workspace {
+  id               String       @id @default(cuid())
+  name             String
+  slug             String       @unique
+  plan             String       @default("FREE")
+  stripeCustomerId String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  memberships      Membership[]
+  invitations      Invitation[]
+}
+
+// Join table that powers multi-tenancy + RBAC.
+// A user's role is always resolved through their Membership in a given Workspace.
+model Membership {
+  id          String    @id @default(cuid())
+  role        Role      @default(VIEWER)
+  userId      String
+  workspaceId String
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+  @@index([workspaceId])
+}
+
+model Invitation {
+  id          String    @id @default(cuid())
+  email       String
+  role        Role      @default(EDITOR)
+  token       String    @unique
+  expiresAt   DateTime
+  workspaceId String
+  invitedById String
+  createdAt   DateTime  @default(now())
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  invitedBy   User      @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([email])
+}
+
+// --- Auth.js adapter tables (kept for future OAuth providers) ---
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

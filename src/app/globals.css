@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/*
+  RankPilot design system (2026 e-commerce-friendly direction):
+  - Calm, breathable warm-neutral base ("Cloud Dancer"-style off-white)
+  - Deep ink text for high readability
+  - One confident electric-indigo accent reserved for CTAs/emphasis
+  - Space Grotesk for display headlines, Inter for body
+*/
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), sans-serif;
+
+  --color-canvas: #faf9f6;
+  --color-surface: #ffffff;
+  --color-ink: #16161a;
+  --color-ink-soft: #4b4b55;
+  --color-muted: #8a8a96;
+  --color-line: #ececec;
+
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-accent-soft: #eef0ff;
+
+  --radius-card: 18px;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* Subtle ambient gradient used behind hero sections. */
+.bg-aura {
+  background-image:
+    radial-gradient(60% 50% at 15% 0%, #e8e9ff 0%, transparent 60%),
+    radial-gradient(50% 40% at 95% 10%, #fdeede 0%, transparent 55%);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
