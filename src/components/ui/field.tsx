@@ -11,7 +11,7 @@ export function Field({
         {label}
       </span>
       <input
-        className="h-11 w-full rounded-xl border border-[var(--color-line)] bg-[var(--color-surface)] px-3.5 text-sm outline-none transition-colors placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent-soft)]"
+        className="h-12 w-full rounded-2xl border-2 border-[var(--color-line)] bg-[var(--color-surface)] px-4 text-sm outline-none transition-colors placeholder:text-[var(--color-muted)] focus:border-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent-soft)]"
         {...props}
       />
       {error ? (

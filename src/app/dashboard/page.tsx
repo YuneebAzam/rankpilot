@@ -3,10 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { CreateWorkspaceForm } from "@/components/create-workspace-form";
 
 const roleStyles: Record<string, string> = {
-  OWNER: "bg-[var(--color-accent-soft)] text-[var(--color-accent)]",
-  ADMIN: "bg-amber-50 text-amber-700",
-  EDITOR: "bg-emerald-50 text-emerald-700",
-  VIEWER: "bg-gray-100 text-gray-600",
+  OWNER: "bg-[var(--color-accent)] text-white",
+  ADMIN: "bg-amber-500 text-white",
+  EDITOR: "bg-emerald-500 text-white",
+  VIEWER: "bg-white/10 text-[var(--color-ink-soft)]",
 };
 
 export default async function DashboardHome() {
@@ -33,27 +33,23 @@ export default async function DashboardHome() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="font-display text-3xl font-bold tracking-tight">
-          Your workspaces
-        </h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Your workspaces</h1>
         <p className="mt-1 text-[var(--color-ink-soft)]">
           Each workspace is an isolated tenant with its own sites, content, and
           team. Your role controls what you can do.
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {memberships.map(({ role, workspace }) => (
           <div
             key={workspace.id}
-            className="rounded-[var(--radius-card)] border border-[var(--color-line)] bg-[var(--color-surface)] p-6"
+            className="panel p-6 transition-colors hover:border-[var(--color-line-strong)]"
           >
-            <div className="flex items-start justify-between">
-              <h2 className="font-display text-lg font-semibold">
-                {workspace.name}
-              </h2>
+            <div className="flex items-start justify-between gap-3">
+              <h2 className="text-lg font-semibold">{workspace.name}</h2>
               <span
-                className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                className={`shrink-0 rounded-full px-3 py-1 text-xs font-medium ${
                   roleStyles[role] ?? roleStyles.VIEWER
                 }`}
               >
@@ -78,10 +74,8 @@ export default async function DashboardHome() {
         ))}
       </div>
 
-      <div className="rounded-[var(--radius-card)] border border-dashed border-[var(--color-line)] bg-[var(--color-surface)] p-6">
-        <h3 className="font-display text-base font-semibold">
-          Create a new workspace
-        </h3>
+      <div className="rounded-[var(--radius-card)] border border-dashed border-[var(--color-line-strong)] bg-[var(--color-surface)]/40 p-6">
+        <h3 className="text-base font-medium">Create a new workspace</h3>
         <p className="mb-4 mt-1 text-sm text-[var(--color-ink-soft)]">
           Great for managing a separate client or brand. You&apos;ll be the
           owner.

@@ -6,16 +6,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// NOTE: provider is SQLite for zero-config LOCAL demo runs only.
+// Production target is PostgreSQL (see SPEC.md). SQLite has no native enums,
+// so Role is modeled as a String here (values: OWNER/ADMIN/EDITOR/VIEWER).
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
-}
-
-enum Role {
-  OWNER
-  ADMIN
-  EDITOR
-  VIEWER
 }
 
 model User {
@@ -53,7 +49,7 @@ model Workspace {
 // A user's role is always resolved through their Membership in a given Workspace.
 model Membership {
   id          String    @id @default(cuid())
-  role        Role      @default(VIEWER)
+  role        String    @default("VIEWER")
   userId      String
   workspaceId String
   createdAt   DateTime  @default(now())
@@ -68,7 +64,7 @@ model Membership {
 model Invitation {
   id          String    @id @default(cuid())
   email       String
-  role        Role      @default(EDITOR)
+  role        String    @default("EDITOR")
   token       String    @unique
   expiresAt   DateTime
   workspaceId String

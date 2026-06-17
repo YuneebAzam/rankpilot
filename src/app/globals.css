@@ -1,29 +1,30 @@
 @import "tailwindcss";
 
 /*
-  RankPilot design system (2026 e-commerce-friendly direction):
-  - Calm, breathable warm-neutral base ("Cloud Dancer"-style off-white)
-  - Deep ink text for high readability
-  - One confident electric-indigo accent reserved for CTAs/emphasis
-  - Space Grotesk for display headlines, Inter for body
+  RankPilot design system — dark developer-SaaS direction
+  (inspired by modern dark product sites): near-black canvas, aurora hero glow,
+  elevated panels with hairline borders, violet accent, monospace for stats.
 */
 
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-space-grotesk), var(--font-inter), sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, "Courier New", monospace;
 
-  --color-canvas: #faf9f6;
-  --color-surface: #ffffff;
-  --color-ink: #16161a;
-  --color-ink-soft: #4b4b55;
-  --color-muted: #8a8a96;
-  --color-line: #ececec;
+  --color-canvas: #08080c;
+  --color-surface: #101017;
+  --color-elev: #16161f;
+  --color-ink: #f5f5f8;
+  --color-ink-soft: #a3a3b8;
+  --color-muted: #6c6c82;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.14);
 
-  --color-accent: #4f46e5;
-  --color-accent-hover: #4338ca;
-  --color-accent-soft: #eef0ff;
+  --color-accent: #8b5cf6;
+  --color-accent-hover: #a78bfa;
+  --color-accent-soft: rgba(139, 92, 246, 0.16);
 
-  --radius-card: 18px;
+  --radius-card: 16px;
 }
 
 html {
@@ -37,13 +38,34 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Subtle ambient gradient used behind hero sections. */
-.bg-aura {
-  background-image:
-    radial-gradient(60% 50% at 15% 0%, #e8e9ff 0%, transparent 60%),
-    radial-gradient(50% 40% at 95% 10%, #fdeede 0%, transparent 55%);
+/* Aurora glow behind the hero. */
+.bg-aurora {
+  background:
+    radial-gradient(60% 50% at 50% -10%, rgba(139, 92, 246, 0.35) 0%, transparent 60%),
+    radial-gradient(40% 40% at 85% 0%, rgba(236, 72, 153, 0.22) 0%, transparent 60%),
+    radial-gradient(45% 45% at 10% 5%, rgba(56, 189, 248, 0.18) 0%, transparent 60%),
+    var(--color-canvas);
+}
+
+/* Elevated dark panel with hairline border. */
+.panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 40%),
+    var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+
+.hairline {
+  border: 1px solid var(--color-line);
 }
 
 .text-balance {
   text-wrap: balance;
+}
+
+.text-gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #b9a7ff 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

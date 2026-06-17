@@ -42,8 +42,8 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="rounded-[var(--radius-card)] border border-[var(--color-line)] bg-[var(--color-surface)] p-8 shadow-sm">
-      <h1 className="font-display text-2xl font-bold tracking-tight">
+    <div className="panel p-8">
+      <h1 className="text-2xl font-semibold tracking-tight">
         Create your account
       </h1>
       <p className="mt-1 text-sm text-[var(--color-ink-soft)]">

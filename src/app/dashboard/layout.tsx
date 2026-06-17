@@ -14,13 +14,13 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-dvh">
-      <header className="border-b border-[var(--color-line)] bg-[var(--color-surface)]">
+      <header className="border-b border-[var(--color-line)] bg-[var(--color-surface)]/60 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link
             href="/dashboard"
-            className="font-display text-lg font-bold tracking-tight"
+            className="text-lg font-semibold tracking-tight"
           >
-            Rank<span className="text-[var(--color-accent)]">Pilot</span>
+            Rank<span className="text-[var(--color-accent-hover)]">Pilot</span>
           </Link>
           <div className="flex items-center gap-4">
             <span className="hidden text-sm text-[var(--color-ink-soft)] sm:inline">

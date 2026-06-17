@@ -1,5 +1,8 @@
-import type { Role } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+
+// Role is a string in the DB (SQLite has no enums); this union is the source of
+// truth in app code. On PostgreSQL this maps cleanly to a native enum.
+export type Role = "OWNER" | "ADMIN" | "EDITOR" | "VIEWER";
 
 // Role hierarchy: higher number = more privileges.
 const RANK: Record<Role, number> = {
@@ -33,7 +36,8 @@ export async function getMembership(
     where: { userId_workspaceId: { userId, workspaceId } },
     select: { workspaceId: true, role: true },
   });
-  return membership;
+  // role is stored as a string; narrow to the Role union.
+  return membership as MembershipContext | null;
 }
 
 /**

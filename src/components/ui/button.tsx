@@ -5,19 +5,19 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 font-medium rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-accent)] disabled:opacity-60 disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-canvas)] focus-visible:ring-[var(--color-accent)] disabled:opacity-60 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)] shadow-sm",
+    "bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)] shadow-[0_8px_24px_-8px_rgba(139,92,246,0.6)]",
   secondary:
-    "bg-[var(--color-surface)] text-[var(--color-ink)] border border-[var(--color-line)] hover:border-[var(--color-ink-soft)]",
+    "bg-white/5 text-[var(--color-ink)] border border-[var(--color-line-strong)] hover:bg-white/10 backdrop-blur-sm",
   ghost: "text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]",
 };
 
 const sizes: Record<Size, string> = {
-  md: "h-10 px-5 text-sm",
-  lg: "h-12 px-7 text-base",
+  md: "h-9 px-4 text-sm",
+  lg: "h-11 px-6 text-[15px]",
 };
 
 export function buttonClass(variant: Variant = "primary", size: Size = "md") {

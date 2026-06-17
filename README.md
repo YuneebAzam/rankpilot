@@ -4,8 +4,9 @@
 > SaaS. **Phase 1** (this scaffold): auth, multi-tenant workspaces, and RBAC.
 
 Built with Next.js 15 (App Router) · TypeScript · Tailwind v4 · Prisma ·
-PostgreSQL · Auth.js v5. See [SPEC.md](./SPEC.md) for the full product spec,
-architecture, data model, and roadmap.
+Auth.js v5. Runs on **SQLite** out of the box for a zero-config demo; the
+architecture targets **PostgreSQL** in production (see [SPEC.md](./SPEC.md) for
+the full product spec, architecture, data model, and roadmap).
 
 ---
 
@@ -29,7 +30,7 @@ architecture, data model, and roadmap.
 |---|---|---|
 | Framework | Next.js App Router | One codebase for UI + API; server components |
 | Language | TypeScript end-to-end | Type safety from DB to UI |
-| DB / ORM | PostgreSQL + Prisma | Relational tenancy, typed queries, migrations |
+| DB / ORM | Prisma (SQLite local / Postgres prod) | Relational tenancy, typed queries; swap provider for prod |
 | Auth | Auth.js v5 (split config) | Edge-safe middleware + Node credentials |
 | Styling | Tailwind v4 + design tokens | Fast, consistent, themeable |
 | Validation | zod | One schema source for API + forms |
@@ -42,7 +43,8 @@ npm install
 
 # 2. Configure env
 cp .env.example .env
-#   - set DATABASE_URL (local Postgres or a free Neon branch)
+#   - DATABASE_URL defaults to SQLite (file:./dev.db) — works with no setup.
+#     For Postgres, set a Postgres URL and change the provider in schema.prisma.
 #   - set AUTH_SECRET   (npx auth secret)
 
 # 3. Create the schema + generate the client
