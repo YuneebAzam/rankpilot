@@ -43,6 +43,28 @@ model Workspace {
 
   memberships      Membership[]
   invitations      Invitation[]
+  sites            Site[]
+}
+
+// A website/brand inside a workspace. Brand-voice fields are injected into AI
+// content prompts in Phase 3.
+model Site {
+  id           String    @id @default(cuid())
+  workspaceId  String
+  name         String
+  url          String
+  industry     String?
+  audience     String?
+  tone         String?   // e.g. "Friendly, concise, expert"
+  guidelines   String?   // free-text brand/style guidance
+  bannedWords  String?   // comma-separated words to avoid
+  preferredCta String?   // default call-to-action
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
 }
 
 // Join table that powers multi-tenancy + RBAC.

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { CreateWorkspaceForm } from "@/components/create-workspace-form";
@@ -42,9 +44,10 @@ export default async function DashboardHome() {
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {memberships.map(({ role, workspace }) => (
-          <div
+          <Link
             key={workspace.id}
-            className="panel p-6 transition-colors hover:border-[var(--color-line-strong)]"
+            href={`/dashboard/workspaces/${workspace.id}`}
+            className="panel block p-6 transition-colors hover:border-[var(--color-line-strong)]"
           >
             <div className="flex items-start justify-between gap-3">
               <h2 className="text-lg font-semibold">{workspace.name}</h2>
@@ -70,7 +73,7 @@ export default async function DashboardHome() {
                 </dd>
               </div>
             </dl>
-          </div>
+          </Link>
         ))}
       </div>
 
