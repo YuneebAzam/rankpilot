@@ -42,6 +42,29 @@ export const updateSiteSchema = z.object({
 });
 export type UpdateSiteInput = z.infer<typeof updateSiteSchema>;
 
+export const keywordResearchSchema = z.object({
+  seed: z.string().min(2, "Enter a topic of at least 2 characters").max(80),
+});
+export type KeywordResearchInput = z.infer<typeof keywordResearchSchema>;
+
+export const saveKeywordListSchema = z.object({
+  name: z.string().min(1, "Name the list").max(80),
+  keywords: z
+    .array(
+      z.object({
+        term: z.string().min(1).max(120),
+        volume: z.number().int().nonnegative().optional(),
+        difficulty: z.number().int().min(0).max(100).optional(),
+        intent: z
+          .enum(["informational", "commercial", "transactional"])
+          .optional(),
+      })
+    )
+    .min(1, "Select at least one keyword")
+    .max(100),
+});
+export type SaveKeywordListInput = z.infer<typeof saveKeywordListSchema>;
+
 export const inviteMemberSchema = z.object({
   workspaceId: z.string().min(1),
   email: z.string().email("Enter a valid email"),

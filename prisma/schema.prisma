@@ -63,8 +63,36 @@ model Site {
   updatedAt    DateTime  @updatedAt
 
   workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  keywordLists KeywordList[]
 
   @@index([workspaceId])
+}
+
+// A saved group of target keywords for a site (e.g. "Homepage", "Spring campaign").
+model KeywordList {
+  id        String    @id @default(cuid())
+  siteId    String
+  name      String
+  createdAt DateTime  @default(now())
+
+  site      Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  keywords  Keyword[]
+
+  @@index([siteId])
+}
+
+model Keyword {
+  id            String      @id @default(cuid())
+  keywordListId String
+  term          String
+  volume        Int?        // est. monthly searches
+  difficulty    Int?        // 0–100
+  intent        String?     // informational | commercial | transactional
+  createdAt     DateTime    @default(now())
+
+  keywordList   KeywordList @relation(fields: [keywordListId], references: [id], onDelete: Cascade)
+
+  @@index([keywordListId])
 }
 
 // Join table that powers multi-tenancy + RBAC.
