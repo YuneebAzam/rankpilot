@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { auth } from "@/auth";
+import { DemoLauncher } from "@/components/demo-launcher";
 
 const navLinks = ["Product", "Solutions", "Pricing", "Docs", "Blog"];
 const logos = ["Brewbar", "Northwind", "Maple&Co", "Studio42", "Lumen", "Häus"];
@@ -110,9 +111,11 @@ export default async function LandingPage() {
           </div>
         </div>
 
-        {/* product card */}
+        {/* product card — clickable: opens the live demo dashboard */}
         <div className="relative z-10 mx-auto max-w-4xl px-6 pb-12">
-          <BrowserMock />
+          <DemoLauncher>
+            <BrowserMock />
+          </DemoLauncher>
         </div>
       </section>
 
