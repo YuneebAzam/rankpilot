@@ -412,36 +412,75 @@ function TrafficChart() {
 }
 
 function BrowserMock() {
+  const nav: [string, string][] = [
+    ["Content", "✎"],
+    ["Keywords", "◎"],
+    ["Calendar", "▦"],
+    ["Analytics", "▮"],
+  ];
   return (
-    <div className="panel overflow-hidden shadow-2xl shadow-black/50">
+    <div className="panel overflow-hidden text-left shadow-2xl shadow-black/50">
       <div className="flex items-center gap-2 border-b border-[var(--color-line)] px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
         <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
         <span className="h-3 w-3 rounded-full bg-[#28c840]" />
         <span className="ml-4 rounded-md bg-white/5 px-3 py-1 text-xs text-[var(--color-muted)]">app.rankpilot.io</span>
       </div>
-      <div className="grid grid-cols-[180px_1fr] gap-4 p-4">
-        <aside className="space-y-1">
-          <div className="rounded-md bg-[var(--color-accent-soft)] px-3 py-2 text-xs text-white">Content</div>
-          {["Keywords", "Calendar", "Analytics"].map((x) => (
-            <div key={x} className="px-3 py-2 text-xs text-[var(--color-ink-soft)]">{x}</div>
+      <div className="grid grid-cols-[180px_1fr]">
+        <aside className="space-y-1 border-r border-[var(--color-line)] p-3">
+          <div className="px-2 pb-2 text-[10px] uppercase tracking-widest text-[var(--color-muted)]">
+            Brewbar
+          </div>
+          {nav.map(([label, icon], i) => (
+            <div
+              key={label}
+              className={`flex items-center gap-2 rounded-md px-3 py-2 text-xs ${
+                i === 0
+                  ? "bg-[var(--color-accent-soft)] text-white"
+                  : "text-[var(--color-ink-soft)]"
+              }`}
+            >
+              <span className="text-[var(--color-muted)]">{icon}</span>
+              {label}
+            </div>
           ))}
         </aside>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="h-3 w-40 rounded bg-white/10" />
-            <div className="rounded-md bg-[var(--color-accent)] px-3 py-1.5 text-xs font-medium text-white">Generate</div>
-          </div>
-          <div className="panel space-y-2 p-4">
-            <div className="h-3 w-3/4 rounded bg-white/15" />
-            <div className="h-2.5 w-full rounded bg-white/[0.08]" />
-            <div className="h-2.5 w-11/12 rounded bg-white/[0.08]" />
-            <div className="h-2.5 w-2/3 rounded bg-white/[0.08]" />
-            <div className="flex gap-2 pt-1">
-              <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] text-emerald-300">SEO 92</span>
-              <span className="rounded-full bg-sky-500/15 px-2 py-0.5 text-[11px] text-sky-300">Readability A</span>
+
+        <div className="p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs text-[var(--color-muted)]">
+              <span className="rounded-full bg-white/5 px-2 py-0.5">Keyword: cold brew coffee</span>
+              <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-emerald-300">SEO 92</span>
+              <span className="rounded-full bg-sky-500/15 px-2 py-0.5 text-sky-300">Readability A</span>
+            </div>
+            <div className="rounded-md bg-[var(--color-accent)] px-3 py-1.5 text-xs font-medium text-white">
+              Generate
             </div>
           </div>
+
+          <article className="rounded-lg border border-[var(--color-line)] bg-white/[0.02] p-5">
+            <h3 className="text-[15px] font-semibold text-white">
+              Cold Brew Coffee: A Beginner&apos;s Guide
+            </h3>
+            <p className="mt-2 text-[11px] text-[var(--color-muted)]">
+              Draft · 1,240 words · updated just now
+            </p>
+            <p className="mt-3 text-xs leading-relaxed text-[var(--color-ink-soft)]">
+              Cold brew is smoother and less acidic than hot coffee because it
+              never touches heat. Steeping coarse grounds in cold water for 12–18
+              hours draws out natural sweetness while leaving bitter notes behind.
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-[var(--color-ink-soft)]">
+              To make it at home, stir one cup of coarsely ground coffee into four
+              cups of filtered water, rest it overnight, then strain. Serve over
+              ice and cut with milk or water to taste.
+            </p>
+            <p className="mt-3 text-xs font-medium text-white">Why it works</p>
+            <p className="mt-1 text-xs leading-relaxed text-[var(--color-ink-soft)]">
+              A long, cold steep is gentle on the beans — the result is mellow,
+              naturally sweet, and keeps in the fridge for up to two weeks.
+            </p>
+          </article>
         </div>
       </div>
     </div>
