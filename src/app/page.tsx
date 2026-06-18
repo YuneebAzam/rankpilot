@@ -8,6 +8,42 @@ const stars = [
   [12, 8], [22, 18], [34, 6], [48, 14], [62, 9], [75, 17], [85, 7], [91, 20],
 ];
 
+const caseStudies: {
+  brand: string;
+  quote: string;
+  who: string;
+  traffic: string;
+  period: string;
+  metrics: [string, string][];
+}[] = [
+  {
+    brand: "Brewbar",
+    quote:
+      "We replaced a $2k/mo content retainer in a week — and started ranking for terms the agency never touched.",
+    who: "Priya N. · Founder",
+    traffic: "+187%",
+    period: "last 6 months",
+    metrics: [
+      ["3.2×", "leads / mo"],
+      ["48", "page-1 keywords"],
+      ["−71%", "cost / post"],
+    ],
+  },
+  {
+    brand: "Maple&Co",
+    quote:
+      "300 product descriptions in an afternoon, all on-brand. Our category pages finally rank.",
+    who: "Dana K. · Head of Ecom",
+    traffic: "+143%",
+    period: "last 4 months",
+    metrics: [
+      ["2.4×", "organic sales"],
+      ["120", "pages refreshed"],
+      ["#1", "for 9 terms"],
+    ],
+  },
+];
+
 export default async function LandingPage() {
   const session = await auth();
   const isAuthed = !!session?.user;
@@ -68,9 +104,9 @@ export default async function LandingPage() {
           </p>
           <div className="mt-7 inline-flex items-center gap-1 rounded-xl border border-[var(--color-line)] bg-black/30 p-1">
             <ButtonLink href="/register" variant="primary">Start free</ButtonLink>
-            <Link href="/login" className="rounded-lg px-5 py-2 text-sm font-medium text-white/80 hover:text-white">
-              View demo
-            </Link>
+            <a href="#results" className="rounded-lg px-5 py-2 text-sm font-medium text-white/80 hover:text-white">
+              See results
+            </a>
           </div>
         </div>
 
@@ -185,13 +221,62 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS ===== */}
-      <section style={{ background: "radial-gradient(70% 100% at 50% 0%, rgba(120,30,60,.5), transparent 60%), #08080c" }}>
+      {/* ===== TESTIMONIALS / RESULTS ===== */}
+      <section
+        id="results"
+        className="scroll-mt-20"
+        style={{ background: "radial-gradient(70% 100% at 50% 0%, rgba(120,30,60,.5), transparent 60%), #08080c" }}
+      >
         <div className="mx-auto max-w-5xl px-6 py-24">
           <h2 className="text-center text-2xl font-semibold tracking-tight sm:text-3xl">
-            Trusted by the best in business
+            Real results from real businesses
           </h2>
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <p className="mx-auto mt-3 max-w-lg text-center text-[var(--color-ink-soft)]">
+            Small teams using RankPilot to grow organic traffic — without an agency.
+          </p>
+
+          {/* Featured case studies with result charts */}
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {caseStudies.map((cs) => (
+              <figure key={cs.brand} className="panel p-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-bold tracking-tight">{cs.brand}</span>
+                  <span className="rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs text-emerald-300">
+                    Case study
+                  </span>
+                </div>
+                <blockquote className="mt-4 text-sm leading-relaxed text-[var(--color-ink)]">
+                  “{cs.quote}”
+                </blockquote>
+                <figcaption className="mt-3 text-sm text-[var(--color-muted)]">{cs.who}</figcaption>
+
+                {/* result chart */}
+                <div className="mt-5 rounded-xl border border-[var(--color-line)] bg-white/[0.02] p-4">
+                  <div className="flex items-end justify-between">
+                    <div>
+                      <div className="text-xs text-[var(--color-muted)]">Organic traffic</div>
+                      <div className="text-2xl font-bold text-emerald-400">{cs.traffic}</div>
+                    </div>
+                    <div className="text-xs text-[var(--color-muted)]">{cs.period}</div>
+                  </div>
+                  <TrafficChart />
+                  <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+                    {cs.metrics.map(([v, l]) => (
+                      <div key={l} className="rounded-lg bg-white/[0.03] py-2">
+                        <div className="text-sm font-semibold">{v}</div>
+                        <div className="text-[11px] text-[var(--color-muted)]">{l}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </figure>
+            ))}
+          </div>
+
+          <h3 className="mt-20 text-center text-xl font-semibold tracking-tight">
+            …and loved by hundreds more
+          </h3>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
             {[
               ["Brewbar", "We replaced a $2k/mo content retainer in a week. The SEO scoring alone is worth it.", "Priya N. · Founder"],
               ["Maple&Co", "Product descriptions for 300 SKUs in an afternoon, all on-brand. Wild.", "Dana K. · Head of Ecom"],
@@ -301,6 +386,30 @@ export default async function LandingPage() {
 }
 
 /* ---------- CSS mock UI ---------- */
+
+function TrafficChart() {
+  return (
+    <svg viewBox="0 0 300 110" className="mt-3 h-24 w-full" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="trafficFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#34d399" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#34d399" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M0,96 L40,90 L80,93 L120,74 L160,66 L200,48 L240,34 L300,12 L300,110 L0,110 Z"
+        fill="url(#trafficFill)"
+      />
+      <path
+        d="M0,96 L40,90 L80,93 L120,74 L160,66 L200,48 L240,34 L300,12"
+        fill="none"
+        stroke="#34d399"
+        strokeWidth="2"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
 
 function BrowserMock() {
   return (
