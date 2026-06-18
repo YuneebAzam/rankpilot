@@ -35,3 +35,6 @@ yarn-error.log*
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# design recreation screenshots (build artifacts)
+/shot*.png
